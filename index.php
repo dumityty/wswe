@@ -1,8 +1,10 @@
 <?php
 
 require 'vendor/autoload.php';
-
 require 'vendor/rb.php';
+
+// Include the app configuration file.
+// require_once dirname(dirname(__FILE__)) . '/app/config.php';
 
 R::setup('mysql:host=localhost;
         dbname=wswe','root','zoocha');
@@ -20,6 +22,15 @@ $app->view->parserOptions = array(
     'autoescape' => true
 );
 $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
+
+
+// MIDDLEWARES
+// require '../app/middleware/authenticate.php';
+
+// ROUTES
+// require '../app/routes/user.php';
+require 'app/routes/user.php';
+
 
 // brain of the app
 // gets a list of venues
