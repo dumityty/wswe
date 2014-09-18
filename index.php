@@ -13,6 +13,14 @@ $app = new \Slim\Slim(array(
     'templates.path' => 'templates',
 ));
 
+$app->add(new \Slim\Middleware\SessionCookie(array(
+    'secure' => false,
+    'name' => 'wswe_session',
+    'secret' => 'd987jdskjh8293kjhcs3289',
+    'cipher' => MCRYPT_RIJNDAEL_256,
+    'cipher_mode' => MCRYPT_MODE_CBC,
+)));
+
 $app->view(new \Slim\Views\Twig());
 $app->view->parserOptions = array(
     'charset' => 'utf-8',
