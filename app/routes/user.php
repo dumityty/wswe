@@ -15,37 +15,56 @@ $app->post('/user/login', function () use ($app) {
   $email = $app->request->params('email');
   $password = $app->request->params('password');
 
-  krumo($email);
-  krumo($password);
-
   $user = R::findOne('users', 'email = :email AND password = :password', array(':email' => $email, ':password' => hash('SHA512', $password)));
 
-  krumo($user);
-
   if ($user) {
+    $_SESSION['user'] = array(
+      'id' =>  $user->id,
+      'email' => $user->email,
+      'name' => $user->fname,
+    );
     $app->redirect('/');
-    krumo('success');
-  } else {
-    krumo('fail');
-
+  } 
+  else {
     $app->render('routes/user/user_login.html.twig', array(
      'page_title' => 'User login',
-        'errors' => array('Email or password incorrect.'),
+      'errors' => array('Email or password incorrect.'),
     ));
   }
 
 });
 
+$app->get('/user/logout', $authenticate($app), function () use ($app) {
+  unset($_SESSION['user']);
+  $app->redirect('/user/login');
+});
+
 /**
  * this will be a post to save a new user
  */
-$app->get('/post', function () {
-  $user = R::dispense('users');
-  $user->fname = 'Titi';
-  $user->lname = 'D';
-  $user->email = 'titi@zoocha.com';
-  $user->password = hash('SHA512', '123');
-  $id = R::store($user);
+$app->get('/user', $authenticate($app), function () use ($app) {
+  krumo($_SESSION);
+  
+  $uid = $_SESSION['user']['id'];
+  
+  // $user =R::findOne('users', 'id = :id', array(':id' => $uid));
+  $user = R::load('users', $uid); 
+  krumo($user);
+
+  $app->render('routes/user/user_account.html.twig', array(
+    'page_title' => 'User Account',
+    'user' => $user,
+  ));
+});
+
+
+$app->post('/register', function () {
+  // $user = R::dispense('users');
+  // $user->fname = 'Titi';
+  // $user->lname = 'D';
+  // $user->email = 'titi@zoocha.com';
+  // $user->password = hash('SHA512', '123');
+  // $id = R::store($user);
 });
 
 /**

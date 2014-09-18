@@ -2,15 +2,11 @@
 
 {% block content %}
   <div class="container-fluid">
-    <div class='header'>
-    	<h2>{{page_title}}</h2>
-    </div>
     <div class="row venues">
     	<div class="col-xs-12 col-sm-12">
     		<div class="page-header">
-    			<h2>Today's Venue Votes</h2>
+    			<h2>Venues</h2>
     		</div>
-    		<p>You need to be logged in to be able to vote<a href="user/login" class="btn btn-default">LOGIN</a></p>
 	      {% for venue in venues %}
 	      	<li>{{ venue.name }}<a href="vote/user1/{{ venue.id }}" class="vote">+</a></li>
 	    	{% endfor %}
@@ -22,18 +18,22 @@
     			<div class="page-header">
     				<h2>Today's Venue Votes</h2>
     			</div>
-		      {% for venue in venues %}
-		      	<div class="venue-box">
-		      		{% set percentage = 200 * venue.votes / total_votes  %}
-			      	<span class="venue-vote-full">
-			      		<span class="venue-vote" style="height: {{ percentage }}px">
-			      		</span>
-			      	</span>
-			      	<span class="venue-name">
-			      		{{ venue.name }} ({{ venue.votes }})
-			      	</span>
-			      </div>
-		    	{% endfor %}
+    			{% if total_votes != 0 %}
+			      {% for venue in venues %}
+			      	<div class="venue-box">
+			      		{% set percentage = 200 * venue.votes / total_votes  %}
+				      	<span class="venue-vote-full">
+				      		<span class="venue-vote" style="height: {{ percentage }}px">
+				      		</span>
+				      	</span>
+				      	<span class="venue-name">
+				      		{{ venue.name }} ({{ venue.votes }})
+				      	</span>
+				      </div>
+			    	{% endfor %}
+			    {% else %}
+			    <p>There are no votes yet!</p>
+			    {% endif %}
 		    </div>
 	    </div>
     </div>	    

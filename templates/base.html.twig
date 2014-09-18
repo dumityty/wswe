@@ -4,7 +4,12 @@
     {% include 'html/head.html.twig' %}
   </head>
   <body>
-    {% block content %}
+		<div class='header'>
+    	<h2 class="pull-left"><a href="/">WSWE</a></h2>
+    	<a href="/user/logout" class="logout pull-right">&nbsp;Logout</a>
+    	<a href="/user" class="account pull-right">Account /</a> 
+    </div>
+		{% block content %}
     {% endblock %}
   </body>
 </html>
