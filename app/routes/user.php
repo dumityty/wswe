@@ -7,15 +7,39 @@
 
 $app->get('/user/login', function () use ($app) {
   $app->render('routes/user/user_login.html.twig', array(
-   'page_title' => 'Mydex Identification'
+   'page_title' => 'User login'
   ));
 });
 
+$app->post('/user/login', function () use ($app) {
+  $email = $app->request->params('email');
+  $password = $app->request->params('password');
+
+  krumo($email);
+  krumo($password);
+
+  $user = R::findOne('users', 'email = :email AND password = :password', array(':email' => $email, ':password' => hash('SHA512', $password)));
+
+  krumo($user);
+
+  if ($user) {
+    $app->redirect('/');
+    krumo('success');
+  } else {
+    krumo('fail');
+
+    $app->render('routes/user/user_login.html.twig', array(
+     'page_title' => 'User login',
+        'errors' => array('Email or password incorrect.'),
+    ));
+  }
+
+});
 
 /**
  * this will be a post to save a new user
  */
-$app->get('/user', function () {
+$app->get('/post', function () {
   $user = R::dispense('users');
   $user->fname = 'Titi';
   $user->lname = 'D';

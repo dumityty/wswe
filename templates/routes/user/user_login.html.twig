@@ -1,5 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-User login
+  User login
+
+  {% include 'form/form-errors.html.twig' %}
+
+  <form id="user-login" action="" method="post" accept-charset="UTF-8">
+    <div class="form-group">
+      <label for="edit-email" class="control-label">Email:</label>
+      <input type="email" id="edit-email" name="email" value="" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-password" class="control-label">Password:</label>
+      <input type="password" id="edit-password" name="password" value="" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group clearfix" id="edit-actions">
+      <input type="submit" id="edit-submit" name="op" value="Submit" class="btn btn-default pull-right">
+    </div>
+  </form>
+
 {% endblock %}
