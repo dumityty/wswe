@@ -4,6 +4,14 @@
 * USERS
 ***********/
 
+
+$app->get('/user/login', function () use ($app) {
+  $app->render('routes/user/user_login.html.twig', array(
+   'page_title' => 'Mydex Identification'
+  ));
+});
+
+
 /**
  * this will be a post to save a new user
  */
@@ -12,6 +20,7 @@ $app->get('/user', function () {
   $user->fname = 'Titi';
   $user->lname = 'D';
   $user->email = 'titi@zoocha.com';
+  $user->password = hash('SHA512', '123');
   $id = R::store($user);
 });
 

@@ -10,7 +10,7 @@ R::setup('mysql:host=localhost;
         dbname=wswe','root','zoocha');
 
 $app = new \Slim\Slim(array(
-    'templates.path' => '../templates',
+    'templates.path' => 'templates',
 ));
 
 $app->view(new \Slim\Views\Twig());
