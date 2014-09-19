@@ -4,7 +4,6 @@
 * USERS
 ***********/
 
-
 $app->get('/user/login', function () use ($app) {
   $app->render('routes/user/user_login.html.twig', array(
    'page_title' => 'User login'
@@ -24,7 +23,7 @@ $app->post('/user/login', function () use ($app) {
       'name' => $user->fname,
     );
     $app->redirect('/');
-  } 
+  }
   else {
     $app->render('routes/user/user_login.html.twig', array(
      'page_title' => 'User login',
@@ -34,31 +33,21 @@ $app->post('/user/login', function () use ($app) {
 
 });
 
-$app->get('/user/logout', $authenticate($app), function () use ($app) {
+$app->get('/user/logout', function () use ($app) {
+  krumo('aa');
   unset($_SESSION['user']);
-  $app->redirect('/user/login');
+  $app->view()->setData('user', null);
+  krumo($_SESSION);
+  // $app->redirect('/');
 });
 
 /**
- * this will be a post to save a new user
+ * Register new user
  */
-$app->get('/user', $authenticate($app), function () use ($app) {
-  krumo($_SESSION);
-  
-  $uid = $_SESSION['user']['id'];
-  
-  // $user =R::findOne('users', 'id = :id', array(':id' => $uid));
-  $user = R::load('users', $uid); 
-  krumo($user);
+$app->get('/user/register', function () {
 
-  $app->render('routes/user/user_account.html.twig', array(
-    'page_title' => 'User Account',
-    'user' => $user,
-  ));
 });
-
-
-$app->post('/register', function () {
+$app->post('/user/register', function () {
   // $user = R::dispense('users');
   // $user->fname = 'Titi';
   // $user->lname = 'D';
@@ -69,6 +58,8 @@ $app->post('/register', function () {
 
 /**
  * add a user to a group
+ * this will most probaly not be a route - just use the code inside
+ * will probably do request to join/invite thing
  */
 $app->get('/user-group/:uid/:gid', function ($uid, $gid) {
   // $user_group = R::dispense('usergroup');
@@ -80,16 +71,22 @@ $app->get('/user-group/:uid/:gid', function ($uid, $gid) {
   echo "Done.";
 });
 
-/***********
-* GROUPS
-***********/
-
 /**
- * this will be a post to save a new group
+ * User account page
  */
-$app->get('/group', function () {
-  $group = R::dispense('groups');
-  $group->name = 'Group1';
-  $group->owner = 1;
-  $id = R::store($group);
+$app->get('/user', $authenticate($app), function () use ($app) {
+  // krumo($_SESSION);
+
+  $uid = $_SESSION['user']['id'];
+
+  // $user =R::findOne('users', 'id = :id', array(':id' => $uid));
+  $user = R::load('users', $uid);
+  // krumo($user);
+
+  $app->render('routes/user/user_account.html.twig', array(
+    'page_title' => 'User Account',
+    'userbean' => $user,
+  ));
 });
+
+

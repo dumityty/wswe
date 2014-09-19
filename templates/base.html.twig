@@ -6,8 +6,10 @@
   <body>
 		<div class='header'>
     	<h2 class="pull-left"><a href="/">WSWE</a></h2>
-    	<a href="/user/logout" class="logout pull-right">&nbsp;Logout</a>
-    	<a href="/user" class="account pull-right">Account /</a> 
+    	{% if user is not empty %}
+        <a href="/user/logout" class="logout pull-right">&nbsp;Logout</a>
+      	<a href="/user" class="account pull-right">Account /</a>
+      {% endif %}
     </div>
 		{% block content %}
     {% endblock %}

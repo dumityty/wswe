@@ -1,20 +1,27 @@
 <?php
 
+/**
+* Define some constants
+*/
+define("DS", DIRECTORY_SEPARATOR);
+define("ROOT", realpath(dirname(__DIR__)) . DS . "wswe" . DS);
+define("ROUTEDIR", ROOT . "app" . DS . "routes" . DS);
+
+
 require 'vendor/autoload.php';
 require 'vendor/rb.php';
-
 
 // Include the app configuration file.
 // require_once dirname(dirname(__FILE__)) . '/app/config.php';
 
-R::setup('mysql:host=localhost;
-        dbname=wswe','root','titi');
+R::setup('mysql:host=localhost; dbname=wswe', 'root', 'zoocha');
 
 $app = new \Slim\Slim(array(
     'templates.path' => 'templates',
 ));
 
 $app->add(new \Slim\Middleware\SessionCookie(array(
+    'expires' => '1440 minutes',
     'secure' => false,
     'name' => 'wswe_session',
     'secret' => 'd987jdskjh8293kjhcs3289',
@@ -32,14 +39,30 @@ $app->view->parserOptions = array(
 );
 $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
-
 // MIDDLEWARES
 // require '../app/middleware/authenticate.php';
 require 'app/middleware/user.php';
 
+/**
+* Add username and settings variable to view
+*/
+$app->hook('slim.before.dispatch', function () use ($app) {
+    krumo('fuck');
+    $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+    $app->view()->setData('user', $user);
+});
+
 // ROUTES
 // require '../app/routes/user.php';
-require 'app/routes/user.php';
+// require 'app/routes/user.php';
+
+/**
+* Include all files located in routes directory
+*/
+foreach (glob(ROUTEDIR . '*.php') as $router) {
+    krumo($router);
+    require $router;
+}
 
 
 // brain of the app
@@ -51,7 +74,7 @@ require 'app/routes/user.php';
 // passes all info to the twig template
 // to show a list of venues and the vote data
 $app->get('/', $authenticate($app), function () use ($app) {
-
+    krumo($_SESSION);
     $venues = R::findAll('venues');
     $venue_full = array();
     $total_votes = 0;
@@ -67,7 +90,7 @@ $app->get('/', $authenticate($app), function () use ($app) {
     		$venue_votes = count($venue_votes_query);
 
     		// krumo($venue_votes_query);
-    		
+
     		$venue_full[$key]['id'] = $venue['id'];
 	    	$venue_full[$key]['name'] = $venue['name'];
 	    	$venue_full[$key]['votes'] = $venue_votes;
