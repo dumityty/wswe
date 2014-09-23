@@ -157,9 +157,12 @@ $app->get('/user-group/:uid/:gid', function ($uid, $gid) {
 $app->get('/user', $authenticate($app), function () use ($app) {
 
   $uid = $_SESSION['user']['id'];
-  $gid = $_SESSION['user']['group'];
+  if (isset($_SESSION['user']['group'])) {
+    $gid = $_SESSION['user']['group']; 
+    $group = R::findOne('groups', 'id = :gid', array(':gid' => $gid));
+    krumo($group);  
+  }
 
-  $group = R::findOne('groups', 'id = :gid', array(':gid' => $gid));
   // $group_name = $group->name;
 
   // $user =R::findOne('users', 'id = :id', array(':id' => $uid));
@@ -169,7 +172,7 @@ $app->get('/user', $authenticate($app), function () use ($app) {
   $app->render('routes/user/user_account.html.twig', array(
     'page_title' => 'User Account',
     'userbean' => $user,
-    'groupbean' => $group,
+    'groupbean' => isset($group) ? $group : NULL,
   ));
 });
 
