@@ -14,7 +14,7 @@ require 'vendor/rb.php';
 // Include the app configuration file.
 // require_once dirname(dirname(__FILE__)) . '/app/config.php';
 
-R::setup('mysql:host=localhost; dbname=wswe', 'root', 'zoocha');
+R::setup('mysql:host=localhost; dbname=wswe', 'root', 'titi');
 
 $app = new \Slim\Slim(array(
     'templates.path' => 'templates',
@@ -47,7 +47,6 @@ require 'app/middleware/user.php';
 * Add username and settings variable to view
 */
 $app->hook('slim.before.dispatch', function () use ($app) {
-    krumo('fuck');
     $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
     $app->view()->setData('user', $user);
 });
@@ -60,7 +59,6 @@ $app->hook('slim.before.dispatch', function () use ($app) {
 * Include all files located in routes directory
 */
 foreach (glob(ROUTEDIR . '*.php') as $router) {
-    krumo($router);
     require $router;
 }
 
@@ -74,19 +72,26 @@ foreach (glob(ROUTEDIR . '*.php') as $router) {
 // passes all info to the twig template
 // to show a list of venues and the vote data
 $app->get('/', $authenticate($app), function () use ($app) {
-    krumo($_SESSION);
+    // krumo($_SESSION);
+
+    $uid = $_SESSION['user']['id'];	
+    $gid = $_SESSION['user']['group'];
+
+    $group = R::findOne('groups', 'id = :gid', array(':gid' => $gid));
+    $group_name = $group->name;
+
     $venues = R::findAll('venues');
     $venue_full = array();
     $total_votes = 0;
 
-    $votes = R::find('votes', 'DATE(FROM_UNIXTIME(`time`)) = CURDATE()');
+    // $votes = R::find('votes', 'DATE(FROM_UNIXTIME(`time`)) = CURDATE() AND gid = :gid', array(':gid' => $gid));
 
     // krumo($votes);
     // krumo($venues);
 
     // if (count($votes)) {
 	    foreach ($venues as $key => $venue) {
-    		$venue_votes_query = R::find('votes', 'DATE(FROM_UNIXTIME(`time`)) = CURDATE() AND vid LIKE :vid', array( ':vid' => $venue['id'] ));
+    		$venue_votes_query = R::find('votes', 'DATE(FROM_UNIXTIME(`time`)) = CURDATE() AND vid = :vid AND gid = :gid', array( ':vid' => $venue['id'], ':gid' => $gid ));
     		$venue_votes = count($venue_votes_query);
 
     		// krumo($venue_votes_query);
@@ -103,6 +108,7 @@ $app->get('/', $authenticate($app), function () use ($app) {
 
     $app->render('routes/index.html.twig', array(
     	'page_title' => 'WSWE',
+    	'group_name' => $group_name,
     	'venues' => $venue_full,
     	'total_votes' => $total_votes,
   	));
@@ -122,7 +128,10 @@ $app->post('/group/venue', $authenticate($app), function() {
 
 // this will be a post to add a user's vote
 // also will need a get maybe to get a user's vote?
-$app->get('/vote/:uid/:vid', $authenticate($app), function($uid, $vid) use ($app) {
+$app->get('/vote/:vid', $authenticate($app), function($vid) use ($app) {
+	$uid = $_SESSION['user']['id'];
+	$gid = $_SESSION['user']['group'];
+
 	// check if user already voted today
     $user_voted =R::count('votes', 'DATE(FROM_UNIXTIME(`time`)) = CURDATE() AND uid = :uid', array( ':uid' => $uid ));
 
@@ -131,24 +140,21 @@ $app->get('/vote/:uid/:vid', $authenticate($app), function($uid, $vid) use ($app
     	$vote = R::dispense('votes');
     	$vote->vid = $vid;
     	$vote->uid = $uid;
+    	$vote->gid = $gid;
     	$vote->time = time();
     	$id = R::store($vote);
-      // echo "Voted!";
+      // Voted.
     	$app->redirect('/');
     }
     // need to update the vote with the new venue
     else {
-      // echo "User already voted!";
-      // echo "<br />";
-
+      // User already voted.
       $user_vote =R::findOne('votes', 'DATE(FROM_UNIXTIME(`time`)) = CURDATE() AND uid = :uid', array( ':uid' => $uid ));
       $user_vote->vid = $vid;
       $user_vote->time = time();
       R::store($user_vote);
 
-      // echo "Vote changed!";
-      // echo "<br />";
-      $app->redirect('/');
+			$app->redirect('/');
     }
 });
 

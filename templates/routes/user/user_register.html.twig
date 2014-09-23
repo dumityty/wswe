@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  {% include 'form/form-errors.html.twig' %}
+
+  {% if error is not empty %}
+      <div class="well messages error">{{ error }}</div>
+  {% endif %}
+
+  <form id="user-login" action="" method="post" accept-charset="UTF-8">
+    <div class="form-group">
+      <label for="edit-fname" class="control-label">First name:</label>
+      <input type="textfield" id="edit-fname" name="fname" value="{{ userbean.fname }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-lname" class="control-label">Last name:</label>
+      <input type="textfield" id="edit-lname" name="lname" value="{{ userbean.lname }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-email" class="control-label">Email:</label>
+      <input type="email" id="edit-email" name="email" value="{{ userbean.email }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-password" class="control-label">Password:</label>
+      <input type="password" id="edit-password" name="password" value="" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group clearfix" id="edit-actions">
+      {% if userbean is empty %}
+        <input type="submit" id="edit-submit" name="op" value="Register" class="btn btn-default pull-right">
+      {% else %}
+        <input type="submit" id="edit-submit" name="op" value="Edit" class="btn btn-default pull-right">
+      {% endif %}
+    </div>
+  </form>
+
+  {% if userbean is empty %}
+  <hr>
+  <p>OR</p>
+  <a href="/user/login" class="btn btn-default">LOGIN</a>
+  {% endif%}
+
+{% endblock %}

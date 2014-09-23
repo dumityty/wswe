@@ -10,6 +10,11 @@
 	text-align: center;
 	color: #fff;
 }
+
+.groupname {
+	text-align: center;
+}
+
 .venues li {
 	display: block;
 	width: 100px;

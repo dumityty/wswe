@@ -8,8 +8,8 @@
  */
 $authenticate = function($app) {
     return function() use ($app) {
-        krumo('mid');
-        krumo($_SESSION);
+        // krumo('mid');
+        // krumo($_SESSION);
 
         if (!isset($_SESSION['user'])) {
             $app->redirect('/user/login');
@@ -27,7 +27,7 @@ $authenticate = function($app) {
 $isLogged = function($app) {
   return function() use ($app) {
     if (isset($_SESSION['user'])) {
-    $app->redirect('/user');
+        $app->redirect('/user');
     }
   };
 };
