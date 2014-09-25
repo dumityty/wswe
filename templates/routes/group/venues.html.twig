@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+	<h2>{{ group_name }}</h2>
+
+	{% if venues is not empty %}
+	Venues Loop Here
+	{% else %}
+	<a href="">Add venues</a>
+	{% endif %}
+
+{% endblock %}

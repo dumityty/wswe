@@ -7,11 +7,18 @@
 	<p>{{ userbean.fname }}</p>
 	<p>{{ userbean.email }}</p>
 	<div class="page-header">
-		<h2>Groups<small> - <a href="/user/join/group">join</a></small></h2>
+		<h2>Groups <!-- <small> - <a href="/group/join">join</a></small>--> </h2>
 	</div>
 	{% if groupbean is not empty %}
 		<ol>
-			<li>{{groupbean.name}} (owner) - <a href="/group/{{groupbean.id}}/manage">manage</a> - <a href="/group/{{groupbean.id}}/leave">leave</a></li>
+			<li>{{groupbean.name}} 
+			{% if (userbean.id == groupbean.owner) %} 
+				(owner)- <a href="/group/{{groupbean.id}}/manage">manage</a> 
+			{% endif %}
+			- <a href="/group/{{groupbean.id}}/leave">leave</a></li>
 		</ol>
+	{% else %}
+		<a href="/group/join">Join</a>
+		<!-- <a href="/user/create/group">Create</a> -->
 	{% endif %}
 {% endblock %}

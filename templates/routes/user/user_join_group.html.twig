@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+<form id="user-login" action="" method="post" accept-charset="UTF-8">
+	<div class="form-group">
+    <label for="edit-group" class="control-label">Group:</label>
+    <input type="textfield" id="edit-group" name="group" value="" size="15" maxlength="60" class="form-control required">
+  </div>
+  <div class="form-group clearfix" id="edit-actions">
+    <input type="submit" id="edit-submit" name="op" value="Join" class="btn btn-default pull-right">
+  </div>
+</form>
+
+{% endblock %}

@@ -75,11 +75,19 @@ $app->get('/', $authenticate($app), function () use ($app) {
     // krumo($_SESSION);
 
     $uid = $_SESSION['user']['id'];	
-    $gid = $_SESSION['user']['group'];
+    // if you're default group is not set 
+    if (isset($_SESSION['user']['group'])) {
+    	$gid = $_SESSION['user']['group'];
+    }
+    else {
+    	$app->redirect('/user');
+    }
 
     $group = R::findOne('groups', 'id = :gid', array(':gid' => $gid));
     $group_name = $group->name;
 
+
+    // RESTRICT BY VENUES OF A GROUP!!!!
     $venues = R::findAll('venues');
     $venue_full = array();
     $total_votes = 0;
