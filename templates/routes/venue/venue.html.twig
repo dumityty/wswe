@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+	<div class="page-header">
+		<h2>{{ venuebean.name }} {% if owner %} <small> - <a href="/venue/{{venuebean.id}}/edit">edit</a></small>{% endif %}</h2>
+	</div>
+	<p>{{ venuebean.address }}</p>
+	<p>{{ venuebean.postcode }}</p>
+	<p>{{ venuebean.town }}</p>
+	<p>{{ venuebean.county }}</p>
+	<p>{{ venuebean.country }}</p>
+	<p>{{ venuebean.phone }}</p>
+	<p>{{ venuebean.url }}</p>
+{% endblock %}

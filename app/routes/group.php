@@ -80,7 +80,7 @@ $app->get('/group/:gid/manage', $authenticate($app), function ($gid) use ($app) 
   }
 
   $venues = R::findAll('venues', 'gid=:gid', array(':gid'=>$gid));
-  krumo($venues);
+  // krumo($venues);
 
   $app->render('routes/group/venues.html.twig', array(
     'page_title' => 'Group Venues',

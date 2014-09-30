@@ -4,9 +4,13 @@
 	<h2>{{ group_name }}</h2>
 
 	{% if venues is not empty %}
-	Venues Loop Here
+		<ul>
+			{% for venue in venues %}
+				<li><a href="/venue/{{ venue.id }}">{{ venue.name }}</a></li>
+			{% endfor %}
+		</ul>
 	{% else %}
-	<a href="">Add venues</a>
+		<a href="">Add venues</a>
 	{% endif %}
 
 {% endblock %}
