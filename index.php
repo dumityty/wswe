@@ -116,7 +116,7 @@ $app->get('/', $authenticate($app), function () use ($app) {
 
     $app->render('routes/index.html.twig', array(
     	'page_title' => 'WSWE',
-    	'group_name' => $group_name,
+    	'groupbean' => $group,
     	'venues' => $venue_full,
     	'total_votes' => $total_votes,
   	));

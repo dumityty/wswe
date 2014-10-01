@@ -3,7 +3,7 @@
 {% block content %}
   <div class="container-fluid">
     <div class="row groupname">
-    	<h1>{{ group_name }}</h1>
+    	<h1><a href="/group/{{ groupbean.id }}">{{ groupbean.name }}</a></h1>
     </div>
     <div class="row venues">
     	<div class="col-xs-12 col-sm-12">
@@ -11,7 +11,7 @@
     			<h2>Venues</h2>
     		</div>
 	      {% for venue in venues %}
-	      	<li>{{ venue.name }}<a href="/vote/{{ venue.id }}" class="vote">+</a></li>
+	      	<li><a href="/venue/{{ venue.id }}">{{ venue.name }}</a><a href="/vote/{{ venue.id }}" class="vote">+</a></li>
 	    	{% endfor %}
 	    </div>
     </div>

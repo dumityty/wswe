@@ -20,8 +20,25 @@ $app->get('/groups', function () {
  * Name, Venues belonging to group
  * maybe the people belonging to group if they are owner
  */
-$app->get('/group', function () {
+$app->get('/group/:gid', $authenticate($app), function ($gid) use ($app) {
+	$group = R::load('groups', $gid);
+  
+	// ideally this should be done in a middleware but don't know how yet
+  // need to find a better way for this
+  $owner = FALSE;
+  if ($_SESSION['user']['id'] == $group->owner) {
+      $owner = TRUE;
+  }
 
+  $venues = R::findAll('venues', 'gid=:gid', array(':gid'=>$gid));
+  // krumo($venues);
+
+  $app->render('routes/group/group.html.twig', array(
+    'page_title' => 'Group Venues',
+    'groupbean' => $group,
+    'venues' => $venues,
+    'owner' => $owner,
+  ));
 });
 
 /**
@@ -75,18 +92,50 @@ $app->get('/group/:gid/leave', $authenticate($app), function ($gid) use ($app) {
 $app->get('/group/:gid/manage', $authenticate($app), function ($gid) use ($app) {
 	// ideally this should be done in a middleware but don't know how yet
 	$group = R::load('groups', $gid);
-  if ($_SESSION['user']['id'] != $group->owner) {
-      $app->redirect('/user');
+
+  // need to find a better way for this
+  $owner = FALSE;
+  if ($_SESSION['user']['id'] == $group->owner) {
+      $owner = TRUE;
+  }
+  else {
+    $app->redirect('/user');
   }
 
   $venues = R::findAll('venues', 'gid=:gid', array(':gid'=>$gid));
   // krumo($venues);
 
-  $app->render('routes/group/venues.html.twig', array(
+  $app->render('routes/group/group.html.twig', array(
     'page_title' => 'Group Venues',
-    'group_name' => $group->name,
+    'groupbean' => $group,
     'venues' => $venues,
   ));
 
 });
 
+/**
+ * Add new venue
+ */
+$app->get('/group/:gid/venue/add', $authenticate($app), function ($gid) use ($app) {
+	$group = R::load('groups', $gid);
+	$owner = FALSE;
+  if ($_SESSION['user']['id'] == $group->owner) {
+      $owner = TRUE;
+  }
+  else {
+    $app->redirect('/group/' . $gid);
+  }
+
+	$app->render('routes/group/group_venue_add.html.twig', array(
+    'page_title' => $group->name . ' - Add Venue',
+    'groupbean' => $group,
+    'owner' => $owner,
+  ));
+});
+
+/**
+ * POST to add new venue
+ */
+$app->post('/group/:gid/venue/add', $authenticate($app), function ($gid) use ($app) {
+	
+});

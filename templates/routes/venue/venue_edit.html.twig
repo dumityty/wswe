@@ -2,4 +2,50 @@
 
 {% block content %}
 
+	<div class="page-header">
+		<h2>Edit <i>{{ venuebean.name }}</i> {% if owner %} <small> - <a href="/venue/{{venuebean.id}}/edit">edit</a></small>{% endif %}</h2>
+	</div>
+
+	{% if error is not empty %}
+		<div class="well messages error">{{ error }}</div>
+  {% endif %}
+
+	<form id="venue-edit" action="" method="post" accept-charset="UTF-8">
+		<div class="form-group">
+      <label for="edit-vname" class="control-label">Name</label>
+      <input type="textfield" id="edit-vname" name="vname" value="{{ venuebean.name }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-vaddress" class="control-label">Address</label>
+      <input type="textfield" id="edit-vaddress" name="vaddress" value="{{ venuebean.address }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-vpostcode" class="control-label">Postcode</label>
+      <input type="textfield" id="edit-vpostcode" name="vpostcode" value="{{ venuebean.postcode }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-vtown" class="control-label">Town</label>
+      <input type="textfield" id="edit-vtown" name="vtown" value="{{ venuebean.town }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-vcounty" class="control-label">County</label>
+      <input type="textfield" id="edit-vcounty" name="vcounty" value="{{ venuebean.county }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-vcountry" class="control-label">Country</label>
+      <input type="textfield" id="edit-vcountry" name="vcountry" value="{{ venuebean.country }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-vphone" class="control-label">Phone</label>
+      <input type="textfield" id="edit-vphone" name="vphone" value="{{ venuebean.phone }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group">
+      <label for="edit-vurl" class="control-label">URL</label>
+      <input type="textfield" id="edit-vurl" name="vurl" value="{{ venuebean.url }}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group clearfix" id="edit-actions">
+    	<input type="submit" id="edit-submit" name="op" value="Edit" class="btn btn-default pull-right">
+    </div>
+	</form>
+
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-	<h2>{{ group_name }}</h2>
+	<h2>{{ groupbean.name }}</h2>
 
 	{% if venues is not empty %}
 		<ul>
@@ -10,7 +10,11 @@
 			{% endfor %}
 		</ul>
 	{% else %}
-		<a href="">Add venues</a>
+	{% endif %}
+	<br>
+	{% if owner %}
+		<a href="/group/{{groupbean.id}}/venue/add">Add venues</a>
 	{% endif %}
 
+	<!-- maybe show people in group here at some point? -->
 {% endblock %}
