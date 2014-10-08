@@ -12,9 +12,9 @@
 	{% if groupbean is not empty %}
 		<ol>
 			<li>{{groupbean.name}} 
-			{% if (userbean.id == groupbean.owner) %} 
+			{% if owner %}
 				{# do i need this link here? not really difference between managing and viewing the group #}
-				(owner)- <a href="/group/{{groupbean.id}}/manage">manage</a> 
+				(owner)- <a href="/group/{{groupbean.id}}">manage</a> 
 			{% endif %}
 			- <a href="/group/{{groupbean.id}}/leave">leave</a></li>
 		</ol>

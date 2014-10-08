@@ -21,13 +21,32 @@ $app->get('/groups', function () {
  * maybe the people belonging to group if they are owner
  */
 $app->get('/group/:gid', $authenticate($app), function ($gid) use ($app) {
+	$request = $app->request();
+  $resourceUri = $request->getResourceUri();
+  if ($resourceUri == '/group/join') {
+    $app->pass();
+  }
+
 	$group = R::load('groups', $gid);
+
+	// need to check if group exists
+	if ($group->id == 0) {
+		$app->redirect('/user');
+	}
+
+	// need to check if user belongs to group
+	// otherwise not allowed to view group
+	// for now check for session group as we only allow one group
+	// in the future, will need to check for the user_group table
+	if ($_SESSION['user']['group'] != $gid) {
+		$app->redirect('/user');		
+	}
   
 	// ideally this should be done in a middleware but don't know how yet
   // need to find a better way for this
   $owner = FALSE;
   if ($_SESSION['user']['id'] == $group->owner) {
-      $owner = TRUE;
+    $owner = TRUE;
   }
 
   $venues = R::findAll('venues', 'gid=:gid', array(':gid'=>$gid));
@@ -60,6 +79,9 @@ $app->get('/group/join', $authenticate($app), function () use ($app) {
   ));
 });
 
+
+// this whole route will probably be changed to Invitation system.
+// for now, maybe restrict user to just be able to join one group at a time.
 $app->post('/group/join', $authenticate($app), function () use ($app) {
   $uid = $_SESSION['user']['id'];
 
@@ -137,5 +159,60 @@ $app->get('/group/:gid/venue/add', $authenticate($app), function ($gid) use ($ap
  * POST to add new venue
  */
 $app->post('/group/:gid/venue/add', $authenticate($app), function ($gid) use ($app) {
-	
+	// check maybe if the venue exists already in that group(!)
+	// doesn't matter if it exists in another group - they are independent
+
+	$venue = R::dispense('venues');
+
+	$venue->name = $app->request->params('vname');
+  $venue->address = $app->request->params('vaddress');
+  $venue->postcode = $app->request->params('vpostcode');
+  $venue->town = $app->request->params('vtown');
+  $venue->county = $app->request->params('vcounty');
+  $venue->country = $app->request->params('vcountry');
+  $venue->phone = $app->request->params('vphone');
+  $venue->url = $app->request->params('vurl');
+  $venue->gid = $gid;
+
+
+	$id = R::store($venue);
+
+  $app->redirect('/group/' . $gid);
+});
+
+/**
+ * Edit group
+ */
+$app->get('/group/:gid/edit', $authenticate($app), function ($gid) use ($app) {
+
+	$group = R::load('groups', $gid);
+
+	$owner = FALSE;
+  if ($_SESSION['user']['id'] == $group->owner) {
+      $owner = TRUE;
+  }
+  else {
+  	$app->redirect('/user');
+  }
+
+	$app->render('routes/group/group_edit.html.twig', array(
+    'page_title' => $group->name,
+    'groupbean' => $group,
+    // 'owner' => ($_SESSION['user']['id'] == $group->owner) ? TRUE : FALSE,
+  ));
+
+});
+
+/**
+ * Edit group
+ */
+$app->post('/group/:gid/edit', $authenticate($app), function ($gid) use ($app) {
+
+	$group = R::load('groups', $gid);
+	$group->name = $app->request->params('gname');
+
+  R::store($group);
+
+  $app->redirect('/group/' . $gid);
+
 });

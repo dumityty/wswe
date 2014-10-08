@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+	<div class="page-header">
+		<h2>Edit {{ groupbean.name }}</h2>
+	</div>
+
+	{% if error is not empty %}
+		<div class="well messages error">{{ error }}</div>
+  {% endif %}
+
+	<form id="group-edit" action="" method="post" accept-charset="UTF-8">
+		<div class="form-group">
+      <label for="edit-gname" class="control-label">Name</label>
+      <input type="textfield" id="edit-gname" name="gname" value="{{groupbean.name}}" size="15" maxlength="60" class="form-control required">
+    </div>
+    <div class="form-group clearfix" id="edit-actions">
+    	<input type="submit" id="edit-submit" name="op" value="Edit" class="btn btn-default pull-right">
+    </div>
+	</form>
+
+{% endblock %}

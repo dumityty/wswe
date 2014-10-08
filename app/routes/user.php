@@ -157,10 +157,15 @@ $app->get('/user-group/:uid/:gid', function ($uid, $gid) {
 $app->get('/user', $authenticate($app), function () use ($app) {
 
   $uid = $_SESSION['user']['id'];
+  $owner = FALSE;
   if (isset($_SESSION['user']['group'])) {
     $gid = $_SESSION['user']['group']; 
     $group = R::findOne('groups', 'id = :gid', array(':gid' => $gid));
     // krumo($group);  
+
+    if ($_SESSION['user']['id'] == $group->owner) {
+        $owner = TRUE;
+    }
   }
 
   // $group_name = $group->name;
@@ -174,5 +179,6 @@ $app->get('/user', $authenticate($app), function () use ($app) {
     'page_title' => 'User Account',
     'userbean' => $user,
     'groupbean' => isset($group) ? $group : NULL,
+    'owner' => $owner,
   ));
 });

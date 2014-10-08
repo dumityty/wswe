@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-	<h2>{{ groupbean.name }}</h2>
+	<div class="page-header">
+		<h2>{{ groupbean.name }}{% if owner %} <small> - <a href="/group/{{groupbean.id}}/edit">edit</a></small>{% endif %}</h2>
+	</div>
 
 	{% if venues is not empty %}
 		<ul>

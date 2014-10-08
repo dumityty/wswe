@@ -2,6 +2,7 @@
 
 {% block content %}
 	<div class="page-header">
+		<h4><a href="/group/{{groupbean.id}}">{{groupbean.name }}</a></h4>
 		<h2>{{ venuebean.name }} {% if owner %} <small> - <a href="/venue/{{venuebean.id}}/edit">edit</a></small>{% endif %}</h2>
 	</div>
 	<p>{{ venuebean.address }}</p>

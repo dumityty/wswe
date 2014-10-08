@@ -13,8 +13,17 @@ $app->get('/venue/:vid', $authenticate($app), function ($vid) use ($app) {
   $venue = R::load('venues', $vid);
 
   $group = R::load('groups', $venue->gid);
-  
-  // krumo($group);
+
+  // need to check as well if venue exists!
+  if ($venue->id == 0) {
+  	$app->redirect('/user');
+  }
+
+  // need to check if the user belongs to the group where the venue belongs to
+  if ($_SESSION['user']['group'] != $venue->gid) {
+  	$app->redirect('/group/' . $venue->gid);
+  }
+
 
   // need to find a better way for this
   $owner = FALSE;
@@ -25,6 +34,7 @@ $app->get('/venue/:vid', $authenticate($app), function ($vid) use ($app) {
   $app->render('routes/venue/venue.html.twig', array(
     'page_title' => $venue->name,
     'venuebean' => $venue,
+    'groupbean' => $group,
     'owner' => $owner,
   ));
 });
