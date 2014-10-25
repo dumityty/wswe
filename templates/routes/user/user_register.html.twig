@@ -7,7 +7,17 @@
       <div class="well messages error">{{ error }}</div>
   {% endif %}
 
-  <form id="user-login" action="" method="post" accept-charset="UTF-8">
+  {% if userbean is not empty %}
+    <div class="page-header">
+      <h2>Edit <a href="/user">Account</a></h2>
+    </div>
+  {% else %}
+    <div class="page-header">
+      <h2>Create Account</h2>
+    </div>
+  {% endif %}
+
+  <form id="user-register" action="" method="post" accept-charset="UTF-8">
     <div class="form-group">
       <label for="edit-fname" class="control-label">First name:</label>
       <input type="textfield" id="edit-fname" name="fname" value="{{ userbean.fname }}" size="15" maxlength="60" class="form-control required">

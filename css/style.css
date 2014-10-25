@@ -1,41 +1,124 @@
-.header {
+@import url(http://fonts.googleapis.com/css?family=Fjalla+One);
+@import url(http://fonts.googleapis.com/css?family=Oswald);
+
+body {
+	/*font-family: 'Oswald', sans-serif;*/
+
+	font-family: 'Fjalla One', sans-serif;
+}
+
+a ,
+a:hover {
+	/*color: #2A044A;  purple*/
+	color: #1bde98;
+}
+
+
+
+/* Header */
+/*.header {
 	background-color: #333;
 	height: 80px;
+
+	position: relative;
 }
 
 .header h2 {
 	margin-top: 0;
-	/*margin-bottom: 30px;*/
-
 	text-align: center;
 	color: #fff;
+}*/
+
+nav.navbar {
+	background-color: #0c2133;
+	margin-bottom: 0;
+	border: none;
+	border-radius: 0;
 }
+
+nav.navbar a {
+	color: #fff !important;
+}
+
+/* end header */
+
+/*
+#0c2133
+#060f17
+*/
 
 .groupname {
 	text-align: center;
 }
 
-.venues li {
-	display: block;
-	width: 100px;
-	height: 30px;
-	line-height: 28px;
-
-	border: solid 1px #333;
-
-	margin-bottom: 10px;
-
-	padding-left: 10px;
+.venues {
+	padding: 30px 0px;
+	/*padding-top: 20px;*/
+	margin-bottom: 30px;
+	background-color: #0c2133;
+}
+.venues .venue {
+	/*width: 130px;*/
+	overflow: hidden;
 }
 
-.venues li a.vote {
-	float: right;
-	border-left: solid 1px #333;
-	padding: 0 5px;
+.venues .venue a {
+	font-size: 15px;
+	text-decoration: none;
+}
+
+.venues a.venue_name{
+	float:left;
+	display: block;
+	width: 200px;
+	height: 40px;
+	border: solid 1px #fff;
+	
+	margin-bottom: 10px;
+	line-height: 40px;
+	text-align: center;
+
+	color: #fff;
+	/*padding-left: 10px;*/
+
+}
+
+.venues a.venue_name:hover {
+	/*background-color: #12334e;*/
+	background-color: #0f2a41;
+}
+
+.venues a.vote {
+	float: left;
+	/*padding: 0 5px;*/
+	width: 40px;
+	height: 40px;
+	line-height: 36px;
+	border: solid 1px #fff;
+	border-left: none;
+	text-align: center;
+	color: #fff;
+}
+
+.venues a.vote:hover {
+	background-color: #19cf8d;
+	background-color: #1bde98;
 }
 
 .votes {
 	overflow: hidden;
+}
+
+.votes .page-header {
+	margin-top: 0;
+}
+
+.votes .page-header h2 {
+	margin-top: 0;
+}
+
+.votes .page-header h2 a {
+	color: #0c2133;
 }
 
 .votes .venue-box {
@@ -79,4 +162,15 @@
 	/*position: absolute;
 	bottom: 0px;
 	color: #fff;*/
+}
+
+.votes p.no-votes {
+	/*text-align: center;*/
+	/*font-weight: bold;*/
+}
+
+/* User Login */
+#user-login .forgot-password {
+	margin-right: 10px;
+	margin-top: 7px;
 }

@@ -6,14 +6,15 @@
 	</div>
 
 	{% if venues is not empty %}
-		<ul>
+		<ul class="group-venues">
 			{% for venue in venues %}
 				<li><a href="/venue/{{ venue.id }}">{{ venue.name }}</a></li>
 			{% endfor %}
 		</ul>
 	{% else %}
 	{% endif %}
-	<br>
+	<!-- <br> -->
+	<hr>
 	{% if owner %}
 		<a href="/group/{{groupbean.id}}/venue/add">Add venues</a>
 	{% endif %}

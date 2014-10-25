@@ -3,7 +3,7 @@
 {% block content %}
 
 	<div class="page-header">
-		<h2>Edit {{ groupbean.name }}</h2>
+		<h2>Edit <a href="/group/{{ groupbean.id }}">{{ groupbean.name }}</a></h2>
 	</div>
 
 	{% if error is not empty %}

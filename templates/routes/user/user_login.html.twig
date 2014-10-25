@@ -3,6 +3,9 @@
 {% block content %}
   {% include 'form/form-errors.html.twig' %}
 
+  <div class="page-header">
+    <h2>Login</h2>
+  </div>
   <form id="user-login" action="" method="post" accept-charset="UTF-8">
     <div class="form-group">
       <label for="edit-email" class="control-label">Email:</label>
@@ -15,7 +18,7 @@
     <div class="form-group clearfix" id="edit-actions">
       <a href="/user/register" class="btn btn-default pull-left">Register</a>
       <input type="submit" id="edit-submit" name="op" value="Login" class="btn btn-default pull-right">
-      <a href="/user/forgot-password" class="pull-right">Forgot password?</a>
+      <a href="/user/forgot-password" class="pull-right forgot-password">Forgot password?</a>
     </div>
   </form>
 

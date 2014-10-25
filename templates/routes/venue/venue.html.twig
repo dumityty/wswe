@@ -2,14 +2,24 @@
 
 {% block content %}
 	<div class="page-header">
-		<h4><a href="/group/{{groupbean.id}}">{{groupbean.name }}</a></h4>
+		<h4><a href="/group/{{groupbean.id}}">{{ groupbean.name }}</a></h4>
 		<h2>{{ venuebean.name }} {% if owner %} <small> - <a href="/venue/{{venuebean.id}}/edit">edit</a></small>{% endif %}</h2>
 	</div>
-	<p>{{ venuebean.address }}</p>
-	<p>{{ venuebean.postcode }}</p>
-	<p>{{ venuebean.town }}</p>
-	<p>{{ venuebean.county }}</p>
-	<p>{{ venuebean.country }}</p>
-	<p>{{ venuebean.phone }}</p>
-	<p>{{ venuebean.url }}</p>
+	<div class="venue-address">
+		<span class="glyphicon glyphicon-home"></span>
+		<p>{{ venuebean.address }}</p>
+		<p>{{ venuebean.postcode }}</p>
+		<p>{{ venuebean.town }}</p>
+		<p>{{ venuebean.county }}</p>
+		<p>{{ venuebean.country }}</p>
+	</span>
+
+	<div class="venue-phone">
+		<span class="glyphicon glyphicon-earphone"></span>
+		<p>{{ venuebean.phone }}</p>
+	</div>
+	<div class="venue-url">
+		<span class="glyphicon glyphicon-globe"></span>
+		<p>{{ venuebean.url }}</p>
+	</div>
 {% endblock %}
